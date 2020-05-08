@@ -1,0 +1,12 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["airbnb"],
+  "rules": {
+    "eqeqeq": "off",
+    "no-new": "off",
+    "import/extensions": "off",
+    "no-restricted-globals": "off",
+    "max-len": "off",
+    "no-unused-expressions": "off"
+  }
+}

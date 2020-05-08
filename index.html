@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="./lib/bootstrap-3.3.6.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="app">
+    <div class="form-horizontal" style="width: 800px; margin-top: 10px;">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">公司网址</label>
+            <div class="col-sm-10">
+                <input class="form-control" maxlength="500" name="WebURL" placeholder="请输入公司网址"
+                       type="text" v-model="data.form.WebURL" v-on:blur="svfOnTextFieldBlur('WebURL', data.form.WebURL)"/>
+                <div>{{ svfGetValidateMsg('WebURL') }}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">客户来源</label>
+            <div class="col-sm-10">
+                <select class="form-control" v-model="data.form.Source"
+                        v-on:change="svfOnTextFieldBlur('Source', data.form.Source)">
+                    <option value="">请选择</option>
+                    <option value="1">广告呼入</option>
+                    <option value="2">主动BD</option>
+                </select>
+                <div>{{ svfGetValidateMsg('Source') }}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">是否上市</label>
+            <div class="col-sm-10">
+                <div class="form-inline">
+                    <label class="radio-inline">
+                        <input name="IsOnMarket" type="radio" v-bind:value="false" v-model="data.form.IsOnMarket"
+                               v-on:change="svfOnTextFieldBlur('IsOnMarket', data.form.IsOnMarket)"> 否
+                    </label>
+                    <label class="radio-inline">
+                        <input name="IsOnMarket" type="radio" v-bind:value="true" v-model="data.form.IsOnMarket"
+                               v-on:change="svfOnTextFieldBlur('IsOnMarket', data.form.IsOnMarket)"> 是
+                    </label>
+                    <input class="form-control" class="form-control" maxlength="6"
+                           placeholder="请输入股票代码" type="text" v-model="data.form.StockCode"
+                           v-on:blur="svfOnTextFieldBlur('StockCode')" v-show="data.form.IsOnMarket">
+                </div>
+                <div>{{ svfGetValidateMsg('StockCode') }}</div>
+            </div>
+        </div>
+        <div v-for="(item, index) in data.form.Contacts">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">客户联系人姓名</label>
+                <div class="col-sm-10">
+                    <input class="form-control" maxlength="10" placeholder="请输入客户联系人姓名" type="text"
+                           v-model="item.Name" v-on:blur="svfOnTextFieldBlur('Contacts', item.Name, { subName: 'Name', index: index })">
+                    <div>{{ svfGetValidateMsg('Contacts', index, 'Name') }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">客户联系人性别</label>
+                <div class="col-sm-10">
+                    <select class="form-control" v-model="item.Gender" v-on:change="svfOnTextFieldBlur('Contacts', item.Gender, { subName: 'Gender', index: index })">
+                        <option value="">请选择</option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+                    <div>{{ svfGetValidateMsg('Contacts', index, 'Gender') }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-10">
+                <div>{{ svfGetValidateMsg('Contacts') }}</div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-10">
+                <button class="btn btn-default" type="button" v-on:click="addContact">点我增加客户联系人</button>
+                <button class="btn btn-default" type="button" v-on:click="removeContact">点我删除客户联系人</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-10">
+                <button class="btn btn-default" type="submit" v-on:click="submit('form1', data.form)">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
