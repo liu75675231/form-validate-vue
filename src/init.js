@@ -1,8 +1,15 @@
+import Rules from './rules.js';
+
 const confMap = {};
 let vm;
 export default {
   init(formKey, form, argsVm, argsConfFunc) {
     const conf = argsConfFunc();
+    Object.keys(conf).forEach((key) => {
+      if (conf[key].isArray) {
+        conf[key].list = [];
+      }
+    });
     confMap[formKey] = {
       form,
       conf,
@@ -35,39 +42,36 @@ export default {
   },
   onTextFieldBlur(formKey, name, value, data = {}) {
     let errMsg = '';
-    let isMust;
     const field = this.getConfData(formKey, name, { index: data.index, subName: data.subName });
 
     if (!field) {
       return true;
     }
 
-    if (typeof field.isMust === 'function') {
-      isMust = field.isMust.call(this, confMap[formKey], name, field, data);
-    } else {
-      isMust = field.isMust;
-    }
+    if (field.rules instanceof Array && field.rules.length > 0) {
+      for (let i = 0; i < field.rules.length; i++) {
+        const ruleKey = field.rules[i];
+        if (typeof ruleKey === 'string') {
+          errMsg = Rules[ruleKey](value, field);
+        } else if (typeof ruleKey === 'object') {
+          Object.keys(ruleKey).some((ik) => {
+            if (Rules[ik]) {
+              errMsg = Rules[ik](value, field, ruleKey);
+            }
 
-    if (isMust) {
-      const prefixArr = {
-        input: '请输入',
-        select: '请选择',
-      };
-      if (field.isArray) {
-        if (value.length === 0) {
-          errMsg = `${field.text}不能为空`;
+            if (errMsg !== '') {
+              return true;
+            }
+            return false;
+          });
+        } else if (typeof ruleKey === 'function') {
+          errMsg = ruleKey.call(vm, value);
         }
-      } else if ((typeof value === 'string' && !value) || (field.value instanceof Array && value.length == 0)) {
-        errMsg = prefixArr[field.nodeName] + field.text;
+
+        if (errMsg) {
+          break;
+        }
       }
-    }
-
-    if (!errMsg && field.min !== undefined && value.length > 0 && field.min > value.length) {
-      errMsg = `请输入至少${field.min}个字`;
-    }
-
-    if (!errMsg && (value != '' && typeof field.validate === 'function')) {
-      errMsg = field.validate.call(this, field, data);
     }
 
     field.errMsg = errMsg;

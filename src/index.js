@@ -27,16 +27,26 @@ new Vue({
         WebURL: {
           text: '公司网址',
           nodeName: 'input',
+          rules: [
+            'required',
+            'email',
+          ],
           isMust: true,
         },
         Source: {
           nodeName: 'select',
           isMust: true,
           text: '客户来源',
+          rules: [
+            'required',
+          ],
         },
         IsOnMarket: {
           text: '是否上市',
           nodeName: 'input',
+          rules: [
+            'required',
+          ],
           changeCallback(value) {
             if (!value) {
               $this.svfSetValidateMsg('StockCode', '');
@@ -50,8 +60,34 @@ new Vue({
             }
             return false;
           },
+          rules: [
+            function (val) {
+              if ($this.data.form.IsOnMarket && val == '') {
+                return '请输入股票代码';
+              }
+              return '';
+            },
+            function () {
+              if (!$this.data.form.IsOnMarket) {
+                return '';
+              }
+              if (isNaN($this.data.form.StockCode)) {
+                return '股票代码必须为数字';
+              }
+
+              if ($this.data.form.StockCode % 1 != 0) {
+                return '股票代码必须为整数';
+              }
+
+              if ($this.data.form.StockCode <= 0) {
+                return '股票代码必须大于0';
+              }
+
+              return '';
+            },
+          ],
           text: '股票代码',
-          nodeName: 'input',
+          nodeType: 'input',
           validate() {
             if (!$this.data.form.IsOnMarket) {
               return '';
@@ -75,19 +111,27 @@ new Vue({
           isArray: true,
           isMust: true,
           text: '客户联系人',
+          rules: [
+            'required',
+          ],
           conf: {
             Name: {
               isMust: true,
               text: '客户联系人姓名',
               nodeName: 'input',
+              rules: [
+                'required',
+              ],
             },
             Gender: {
               text: '性别',
               isMust: true,
               nodeName: 'select',
+              rules: [
+                'required',
+              ],
             },
           },
-          list: [],
         },
       };
     });

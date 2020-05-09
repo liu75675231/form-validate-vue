@@ -44,7 +44,7 @@
                     </label>
                     <input class="form-control" class="form-control" maxlength="6"
                            placeholder="请输入股票代码" type="text" v-model="data.form.StockCode"
-                           v-on:blur="svfOnTextFieldBlur('StockCode')" v-show="data.form.IsOnMarket">
+                           v-on:blur="svfOnTextFieldBlur('StockCode', data.form.StockCode)" v-show="data.form.IsOnMarket">
                 </div>
                 <div>{{ svfGetValidateMsg('StockCode') }}</div>
             </div>
