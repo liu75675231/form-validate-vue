@@ -1,11 +1,11 @@
 import Vue from 'vue/dist/vue.js';
 import './style/index.css';
-import SingleValidateFormMixins from './singleValidateFormMixins.js';
+import ValidateFormMixins from './ValidateFormMixins.js';
 
 new Vue({
   el: '#app',
   mixins: [
-    SingleValidateFormMixins,
+    ValidateFormMixins.single,
   ],
   data() {
     return {
