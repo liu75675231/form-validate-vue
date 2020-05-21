@@ -1,7 +1,7 @@
 {
   "name": "form-validate-vue",
-  "version": "1.0.2",
-  "main": "index.js",
+  "version": "1.0.3",
+  "main": "src/ValidateFormMixins.js",
   "license": "MIT",
   "scripts": {
     "build": "webpack --config conf/webpack.prod.config.js",
