@@ -1,14 +1,11 @@
-# 基于vue的表单校验插件
+# form-validate-vue
 
-如何使用
-yarn install
+A validate module for vue. It aims to give a convenient way to validate vue data. It use mixins to inject to vue instance.
 
-运行开发环境
-npm run dev
+Installation
+npm install form-validate-vue
 
-源码解析打包
-npm run build
-
+How to use
 
 如何使用：
 1. 引入_svfMixins.single
