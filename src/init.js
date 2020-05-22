@@ -1,18 +1,20 @@
-import Rules from './rules.js';
+import Rules, { init as ruleInit } from './rules.js';
+
 
 const confMap = {};
 let vm;
 export default {
   init(formKey, form, argsVm, argsConfFunc) {
-    const conf = argsConfFunc();
-    Object.keys(conf).forEach((key) => {
-      if (conf[key].isArray) {
-        conf[key].list = [];
+    const options = argsConfFunc();
+    ruleInit(options);
+    Object.keys(options.conf).forEach((key) => {
+      if (options.conf[key].isArray) {
+        options.conf[key].list = [];
       }
     });
     confMap[formKey] = {
       form,
-      conf,
+      conf: options.conf,
     };
 
     vm = argsVm;
@@ -49,10 +51,10 @@ export default {
     }
 
     if (field.rules instanceof Array && field.rules.length > 0) {
-      for (let i = 0; i < field.rules.length; i++) {
+      for (let i = 0; i < field.rules.length; i += 1) {
         const ruleKey = field.rules[i];
         if (typeof ruleKey === 'string') {
-          errMsg = Rules[ruleKey](value, field);
+          errMsg = Rules[ruleKey](value, field, ruleKey);
         } else if (typeof ruleKey === 'object') {
           Object.keys(ruleKey).some((ik) => {
             if (Rules[ik]) {

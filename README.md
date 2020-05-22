@@ -2,6 +2,9 @@
 
 A validate module for vue. It aims to give a convenient way to validate vue data. It use mixins to inject to vue instance.
 
+Github: https://github.com/liu75675231/form-validate-vue
+
+If you have trouble using that plugin. please send a feecback email to liu75675231@126.com. Thanks
 
 Usage
 

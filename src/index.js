@@ -13,6 +13,7 @@ new Vue({
         form: {
           WebURL: '',
           Source: '',
+          Gender: 0,
           IsOnMarket: false,
           StockCode: '',
           Contacts: [],
@@ -24,50 +25,86 @@ new Vue({
     this.svfInit(this.data.form, this, () => {
       const $this = this;
       return {
-        WebURL: {
-          text: '公司网址',
-          nodeName: 'input',
-          rules: [
-            'required',
-            'email',
-          ],
-          isMust: true,
-        },
-        Source: {
-          nodeName: 'select',
-          isMust: true,
-          text: '客户来源',
-          rules: [
-            'required',
-          ],
-        },
-        IsOnMarket: {
-          text: '是否上市',
-          nodeName: 'input',
-          rules: [
-            'required',
-          ],
-          changeCallback(value) {
-            if (!value) {
-              $this.svfSetValidateMsg('StockCode', '');
-            }
+        conf: {
+          WebURL: {
+            text: 'Website',
+            nodeName: 'input',
+            rules: [
+              'required',
+            ],
           },
-        },
-        StockCode: {
-          isMust() {
-            if ($this.data.form.IsOnMarket) {
-              return true;
-            }
-            return false;
+          Email: {
+            text: 'Email',
+            nodeName: 'input',
+            rules: [
+              'required',
+              'email',
+            ],
           },
-          rules: [
-            function (val) {
-              if ($this.data.form.IsOnMarket && val == '') {
-                return '请输入股票代码';
+          Source: {
+            nodeName: 'select',
+            text: 'Customer Source',
+            rules: [
+              'required',
+            ],
+          },
+          Gender: {
+            nameName: 'select',
+            text: 'Gender',
+            rules: [
+              {
+                required: 0, // required but give a emptyVal, when the val is 0, it will not pass the validate
+              },
+            ],
+          },
+          IsOnMarket: {
+            text: '是否上市',
+            nodeName: 'input',
+            rules: [
+              'required',
+            ],
+            changeCallback(value) {
+              if (!value) {
+                $this.svfSetValidateMsg('StockCode', '');
               }
-              return '';
             },
-            function () {
+          },
+          StockCode: {
+            isMust() {
+              if ($this.data.form.IsOnMarket) {
+                return true;
+              }
+              return false;
+            },
+            rules: [
+              function (val) {
+                if ($this.data.form.IsOnMarket && val == '') {
+                  return '请输入股票代码';
+                }
+                return '';
+              },
+              function () {
+                if (!$this.data.form.IsOnMarket) {
+                  return '';
+                }
+                if (isNaN($this.data.form.StockCode)) {
+                  return '股票代码必须为数字';
+                }
+
+                if ($this.data.form.StockCode % 1 != 0) {
+                  return '股票代码必须为整数';
+                }
+
+                if ($this.data.form.StockCode <= 0) {
+                  return '股票代码必须大于0';
+                }
+
+                return '';
+              },
+            ],
+            text: '股票代码',
+            nodeType: 'input',
+            validate() {
               if (!$this.data.form.IsOnMarket) {
                 return '';
               }
@@ -85,54 +122,35 @@ new Vue({
 
               return '';
             },
-          ],
-          text: '股票代码',
-          nodeType: 'input',
-          validate() {
-            if (!$this.data.form.IsOnMarket) {
-              return '';
-            }
-            if (isNaN($this.data.form.StockCode)) {
-              return '股票代码必须为数字';
-            }
-
-            if ($this.data.form.StockCode % 1 != 0) {
-              return '股票代码必须为整数';
-            }
-
-            if ($this.data.form.StockCode <= 0) {
-              return '股票代码必须大于0';
-            }
-
-            return '';
           },
-        },
-        Contacts: {
-          isArray: true,
-          isMust: true,
-          text: '客户联系人',
-          rules: [
-            'required',
-          ],
-          conf: {
-            Name: {
-              isMust: true,
-              text: '客户联系人姓名',
-              nodeName: 'input',
-              rules: [
-                'required',
-              ],
-            },
-            Gender: {
-              text: '性别',
-              isMust: true,
-              nodeName: 'select',
-              rules: [
-                'required',
-              ],
+          Contacts: {
+            isArray: true,
+            isMust: true,
+            text: '客户联系人',
+            rules: [
+              'required',
+            ],
+            conf: {
+              Name: {
+                isMust: true,
+                text: '客户联系人姓名',
+                nodeName: 'input',
+                rules: [
+                  'required',
+                ],
+              },
+              Gender: {
+                text: '性别',
+                isMust: true,
+                nodeName: 'select',
+                rules: [
+                  'required',
+                ],
+              },
             },
           },
         },
+        lang: 'en-US',
       };
     });
   },

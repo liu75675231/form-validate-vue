@@ -9,24 +9,45 @@
 <div id="app">
     <div class="form-horizontal" style="width: 800px; margin-top: 10px;">
         <div class="form-group">
-            <label class="col-sm-2 control-label">公司网址</label>
+            <label class="col-sm-2 control-label">WebURL</label>
             <div class="col-sm-10">
-                <input class="form-control" maxlength="500" name="WebURL" placeholder="请输入公司网址"
+                <input class="form-control" maxlength="500" placeholder="Please input WebURL"
                        type="text" v-model="data.form.WebURL" v-on:blur="svfOnTextFieldBlur('WebURL', data.form.WebURL)"/>
                 <div>{{ svfGetValidateMsg('WebURL') }}</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">客户来源</label>
+            <label class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+                <input class="form-control" maxlength="50" placeholder="Please input email"
+                       type="text" v-model="data.form.Email" v-on:blur="svfOnTextFieldBlur('Email', data.form.Email)"/>
+                <div>{{ svfGetValidateMsg('Email') }}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Customer Source</label>
             <div class="col-sm-10">
                 <select class="form-control" v-model="data.form.Source"
                         v-on:change="svfOnTextFieldBlur('Source', data.form.Source)">
-                    <option value="">请选择</option>
-                    <option value="1">广告呼入</option>
-                    <option value="2">主动BD</option>
+                    <option value="">Select...</option>
+                    <option value="1">Ads</option>
+                    <option value="2">Search Engine</option>
                 </select>
                 <div>{{ svfGetValidateMsg('Source') }}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Gender</label>
+            <div class="col-sm-10">
+                <select class="form-control" v-model.number="data.form.Gender"
+                        v-on:change="svfOnTextFieldBlur('Gender', data.form.Gender)">
+                    <option value="0">Select...</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                </select>
+                <div>{{ svfGetValidateMsg('Gender') }}</div>
             </div>
         </div>
 
