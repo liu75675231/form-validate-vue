@@ -8,16 +8,18 @@ Live example: https://codesandbox.io/s/sad-neumann-4bxrg?file=/src/App.vue
 
 If you have trouble using that plugin. please send a feecback email to liu75675231@126.com. Thanks
 
+Install
+```javascript
+npm i form-validate-vue
+```
+
+
+
 Usage
 
-Init configuration:
-Markdown | Less | Pretty
---- | --- | ---
-*Still* | `renders` | **nicely**
-1 | 2 | 3
+Basic usage involves initiation, validate when blur or input form changed, validate all data.
 
-
-Example
+Javascript
 ```javascript
 import FormValidate from "form-validate-vue"
 new Vue({
@@ -58,12 +60,50 @@ new Vue({
 })
 ```
 
+HTML
 ```html
 <input type="text"  v-on:change="svfOnTextFieldBlur('Source', data.form.Source)" />
 <div>{{ svfGetValidateMsg('Source') }}</div>
 ```
 
-How to validate all data
+Validate all data
 ```javascript
 this.svfValidate(form)
 ```
+
+Initiation configuration:
+
+lang: the language it shown when it has error. it only support "zh-CN" and "en-US"
+
+conf: each form validate configuration you config is here. 
+
+text: the name that is shown in which error message
+
+nodeName: the value is "select" or "input" represent the input or select form item.
+
+rules: it is array, all of the validate rule in it.
+
+
+Rules
+
+Required: it represent that something is required and not be empty. You can config that using
+```javascript
+rules: ['required']
+``` 
+or 
+```javascript
+rules: [
+  {
+    required: 0,
+  }
+]
+```
+
+The latter number 0 means that the number 0 is judged that is empty and validate failture.
+
+Email: check whether the value you input is a valid email format
+```javascript
+rules: ['email']
+```
+
+
