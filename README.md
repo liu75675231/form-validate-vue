@@ -4,7 +4,7 @@ A validate module for vue. It aims to give a convenient way to validate vue data
 
 Github: https://github.com/liu75675231/form-validate-vue
 
-Live example: https://codesandbox.io/s/sad-neumann-4bxrg?file=/src/App.vue
+Live example: https://codesandbox.io/s/quirky-mccarthy-n15oe?file=/src/App.vue
 
 If you have trouble using that plugin. please send a feecback email to liu75675231@126.com. Thanks
 
